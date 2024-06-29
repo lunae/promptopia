@@ -16,11 +16,13 @@ const ProfilePage = () => {
             const response = await fetch(
                 `/api/users/${session?.user.id}/posts`,
             );
-            const data = await response.json();
-            setPosts(data);
+            const userPrompts = await response.json();
+            setPosts(userPrompts);
         };
 
-        if (session?.user.id) fetchPosts();
+        if (session?.user.id) {
+            fetchPosts();
+        }
     }, []);
 
     const handleEdit = (post) => {
@@ -37,8 +39,8 @@ const ProfilePage = () => {
                     method: 'DELETE',
                 });
 
-                const filteredPosts = posts.filter((p) => p._id !== post._id);
-                setPosts(filteredPosts);
+                const remainingPrompts = posts.filter((p) => p._id !== post._id);
+                setPosts(remainingPrompts);
             } catch (error) {
                 console.log(error);
             }
