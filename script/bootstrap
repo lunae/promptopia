@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# script/bootstrap: Checks all host dependencies
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+verify_nvm_installation() {
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+  command -v nvm >/dev/null 2>&1 || {
+      echo "=> Node Version Manager (NVM) is required!"
+      echo "==> Visit https://github.com/nvm-sh/nvm for installation instructions."
+      exit 1
+  }
+}
+
+install_node_version() {
+    echo "=> Installing Node version"
+    nvm install
+}
+
+bootstrap() {
+  echo "> Bootstrap starting."
+  verify_nvm_installation
+  install_node_version
+  echo "> Bootstrap complete."
+}
+
+bootstrap

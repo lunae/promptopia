@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# script/server: Runs development server
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+setup() {
+  echo "> Setup starting."
+  npm run dev
+  echo "> Setup complete."
+}
+
+setup

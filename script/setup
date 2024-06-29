@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# script/setup: First time setup
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+configure_initial_config() {
+  if [ ! -f .env ]; then
+    echo "=> No config found. Creating template config."
+    cp .env.example .env
+    echo "=> Make sure to update .env with proper values."
+  else
+    echo "=> Config found. Leaving as-is."
+  fi
+}
+
+install_dependencies() {
+  echo "=> Installing NPM dependencies"
+  npm install
+}
+
+instructions() {
+    echo "=> All set! Make sure to update your .env with Google OAuth crendentials, MongoDB URL, and Next Auth configuration."
+    echo "=> Once configured, start the server with: ./script/server"
+}
+
+setup() {
+  echo "> Setup starting."
+  script/bootstrap
+  configure_initial_config
+  install_dependencies
+  instructions
+  echo "> Setup complete."
+}
+
+setup
