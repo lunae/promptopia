@@ -43,7 +43,9 @@ const Nav = () => {
 
                         <button
                             type="button"
-                            onClick={signOut}
+                            onClick={() => {
+                                signOut({ callbackUrl: '/', redirect:true })
+                            }}
                             className="outline_btn"
                         >
                             Sign Out
