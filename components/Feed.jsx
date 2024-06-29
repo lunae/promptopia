@@ -6,7 +6,7 @@ import PromptCardList from './PromptCardList';
 const Feed = () => {
     const [prompts, setPrompts] = useState([]);
     const [searchText, setSearchText] = useState('');
-    
+
     const handleSearchChange = (e) => {
         e.preventDefault();
         setSearchText(e.target.value);
@@ -20,7 +20,7 @@ const Feed = () => {
             const allPrompts = await response.json();
             setPrompts(allPrompts);
         };
-        
+
         fetchPrompts();
     }, []);
 
@@ -37,10 +37,7 @@ const Feed = () => {
                 />
             </form>
 
-            <PromptCardList
-                data={prompts}
-                handleTagClick={handleTagClick}
-            />
+            <PromptCardList data={prompts} handleTagClick={handleTagClick} />
         </section>
     );
 };
