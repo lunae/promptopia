@@ -5,6 +5,7 @@ import PromptCardList from './PromptCardList';
 
 const Feed = () => {
     const [prompts, setPrompts] = useState([]);
+    const [filteredPrompts, setFilteredPrompts] = useState([]);
     const [searchText, setSearchText] = useState('');
 
     const handleSearchChange = (e) => {
@@ -12,7 +13,9 @@ const Feed = () => {
         setSearchText(e.target.value);
     };
 
-    const handleTagClick = () => {};
+    const handleTagClick = (tag) => {
+        setSearchText(tag);
+    };
 
     useEffect(() => {
         const fetchPrompts = async () => {
@@ -23,6 +26,17 @@ const Feed = () => {
 
         fetchPrompts();
     }, []);
+
+    useEffect(() => {
+        const matchingPrompts = prompts.filter(
+            (p) =>
+                p.prompt.includes(searchText) ||
+                p.tag.includes(searchText) ||
+                p.creator.username.includes(searchText),
+        );
+        console.log(matchingPrompts)
+        setFilteredPrompts(matchingPrompts);
+    }, [searchText]);
 
     return (
         <section className="feed">
@@ -37,7 +51,7 @@ const Feed = () => {
                 />
             </form>
 
-            <PromptCardList data={prompts} handleTagClick={handleTagClick} />
+            <PromptCardList data={filteredPrompts} handleTagClick={handleTagClick} />
         </section>
     );
 };
