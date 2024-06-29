@@ -1,40 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-import PromptCard from './PromptCard';
-
-const PromptCardList = ({ data, handleTagClick }) => {
-    return (
-        <div className="mt-16 prompt_layout">
-            {data.map((post) => (
-                <PromptCard
-                    key={post._id}
-                    post={post}
-                    handleTagClick={handleTagClick}
-                />
-            ))}
-        </div>
-    );
-};
+import PromptCardList from './PromptCardList';
+import { fetchAllPrompts } from '@utils/client';
 
 const Feed = () => {
+    const [prompts, setPrompts] = useState([]);
     const [searchText, setSearchText] = useState('');
-    const [posts, setPosts] = useState([]);
-
+    
     const handleSearchChange = (e) => {
         e.preventDefault();
         setSearchText(e.target.value);
     };
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            const response = await fetch('/api/prompt');
-            const data = await response.json();
-            setPosts(data);
-        };
+    const handleTagClick = () => {};
 
-        fetchPosts();
+    useEffect(() => {
+        const fetchPrompts = async () => {
+            const allPrompts = await fetchAllPrompts();
+            setPrompts(allPrompts);
+        };
+        
+        fetchPrompts();
     }, []);
 
     return (
@@ -50,7 +37,10 @@ const Feed = () => {
                 />
             </form>
 
-            <PromptCardList data={posts} handleTagClick={() => {}} />
+            <PromptCardList
+                data={prompts}
+                handleTagClick={handleTagClick}
+            />
         </section>
     );
 };
