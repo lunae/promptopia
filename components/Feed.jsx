@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import PromptCardList from './PromptCardList';
-import { fetchAllPrompts } from '@utils/client';
 
 const Feed = () => {
     const [prompts, setPrompts] = useState([]);
@@ -17,7 +16,8 @@ const Feed = () => {
 
     useEffect(() => {
         const fetchPrompts = async () => {
-            const allPrompts = await fetchAllPrompts();
+            const response = await fetch('/api/prompt');
+            const allPrompts = await response.json();
             setPrompts(allPrompts);
         };
         
